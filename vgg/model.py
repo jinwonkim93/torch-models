@@ -1,7 +1,7 @@
 import torch
 
 class VGG16(torch.nn.Module):
-    def __init__(self, n_classes=10):
+    def __init__(self, n_classes=1000):
         super().__init__()
         
         relu = torch.nn.ReLU(inplace=True)
