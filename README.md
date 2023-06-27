@@ -2,8 +2,8 @@
 
 ## Usage
 ```python
-from vgg.model import VGG16
-from vgg.trainer import Trainer
+from models.vgg import VGG16
+from trainer.trainer import Trainer
 
 configs = {"batch_size":16, "max_epoch":10}
 
