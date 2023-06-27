@@ -1,6 +1,7 @@
 import torch
 from torch.nn.functional import relu
 
+__all__ = ['ResNet']
 
 class ResBlock(torch.nn.Module):
     def __init__(self,
@@ -91,8 +92,8 @@ class ResNet(torch.nn.Module):
         return x
 
 
-
-resnet = ResNet(conv2_size=3, conv3_size=4, conv4_size=6, conv5_size=3)
-dummy = torch.zeros((4, 3, 224, 224))
-print(resnet(dummy))
+if __name__ == "__main__":
+    resnet = ResNet(conv2_size=3, conv3_size=4, conv4_size=6, conv5_size=3)
+    dummy = torch.zeros((4, 3, 224, 224))
+    print(resnet(dummy))
 
