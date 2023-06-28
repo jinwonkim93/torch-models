@@ -72,8 +72,6 @@ class ResNet(torch.nn.Module):
                 modules_list.append(ResBlock(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1, increase_dim=False))
         self.conv_5_x= torch.nn.Sequential(*modules_list)
 
-    
-        #self.avg_pool = partial(avg_pool2d(kernel_size=7, stride=None, padding=0))
         self.avgpool = torch.nn.AvgPool2d(kernel_size=7, stride=1)
         self.ffn = torch.nn.Linear(in_features=512, out_features=1000)
         self.softmax = torch.nn.Softmax(dim=1)
