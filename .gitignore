@@ -5,6 +5,7 @@
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
 
+notebooks/cifar10
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 
