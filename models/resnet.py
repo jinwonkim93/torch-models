@@ -38,7 +38,7 @@ class ResBlock(torch.nn.Module):
         return relu(h2+x) #elemental wise add
     
 class ResNet(torch.nn.Module):
-    def __init__(self, conv2_size, conv3_size, conv4_size, conv5_size): #3 4 6 3
+    def __init__(self, n_classes, conv2_size, conv3_size, conv4_size, conv5_size): #3 4 6 3
         super().__init__()
         self.conv1 = torch.nn.Conv2d(in_channels=3, out_channels=64, kernel_size=7, stride=2, padding=3)
         self.maxpool = torch.nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
@@ -72,9 +72,8 @@ class ResNet(torch.nn.Module):
                 modules_list.append(ResBlock(in_channels=512, out_channels=512, kernel_size=3, stride=1, padding=1, increase_dim=False))
         self.conv_5_x= torch.nn.Sequential(*modules_list)
 
-        self.avgpool = torch.nn.AvgPool2d(kernel_size=7, stride=1)
-        self.ffn = torch.nn.Linear(in_features=512, out_features=1000)
-        self.softmax = torch.nn.Softmax(dim=1)
+        self.avgpool = torch.nn.AdaptiveAvgPool2d((1,1))
+        self.ffn = torch.nn.Linear(in_features=512, out_features=n_classes)
 
     def forward(self, x):
         x = self.conv1(x)
@@ -86,12 +85,11 @@ class ResNet(torch.nn.Module):
         x = self.avgpool(x) #14 14 -> 8 8
         x = torch.flatten(x, start_dim=1)
         x = self.ffn(x)
-        x = self.softmax(x)
         return x
 
 
 if __name__ == "__main__":
-    resnet = ResNet(conv2_size=3, conv3_size=4, conv4_size=6, conv5_size=3)
+    resnet = ResNet(n_classes=1000, conv2_size=3, conv3_size=4, conv4_size=6, conv5_size=3)
     dummy = torch.zeros((4, 3, 224, 224))
     print(resnet(dummy))
 
