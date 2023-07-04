@@ -12,7 +12,7 @@ from .utils import AverageMeter
 class Cifar10Trainer:
     def __init__(self, model, device="cpu"):
         self.model = model
-        self.optimizer = torch.optim.SGD(self.model.parameters(), lr=0.001, momentum=0.9)
+        self.optimizer = torch.optim.SGD(self.model.parameters(), lr=0.01, momentum=0.9)
         self.scheduler = torch.optim.lr_scheduler.ExponentialLR(self.optimizer, gamma=0.9)
         self.loss_fn = torch.nn.CrossEntropyLoss()
         self.device = torch.device(device)
@@ -52,7 +52,7 @@ class Cifar10Trainer:
                 batch_image = batch_image.to(self.device)
                 batch_target = batch_target.to(self.device)
                 pred = self.model(batch_image)
-                pred = torch.softmax(pred, 1)
+                #pred = torch.softmax(pred, 1)
                 loss = self.loss_fn(pred, batch_target)     
                 
                 self.optimizer.zero_grad()
